@@ -23,9 +23,11 @@ var playing = false;
 var info = false;
 var mainCol = 0;
 var botlock = false;
+var loadshade;
 
 function preload() {
   ampera = loadFont('data/Ampera.ttf');
+  juraBook = loadFont('data/Jura-Book.ttf');
   metadata = loadStrings('data/metadata.txt');
 }
 
@@ -163,7 +165,6 @@ function draw() {
       bossfader -= 0.1;
     }
   }
-  console.log(bottom);
 
   if (info == true) {
     information();
@@ -186,17 +187,46 @@ function draw() {
   // calls master control
   master();
 
+  // loading state
+  textAlign(CENTER);
+  textFont(juraBook);
+  if (loadcomp < track.length) {
+    loadshade = 255;
+  } else {
+    if (loadshade <= 0) {
+      loadshade = 0;
+    } else {
+      loadshade -= 3;
+    }
+  }
+  if (playing == false && info  == false) {
+    noStroke();
+    fill(50, loadshade);
+    textSize(50);
+    text("Loading Tracks", windowWidth/2, windowHeight/2);
+    textSize(30);
+    text("(" + loadcomp + " of " + track.length +")",  windowWidth/2, windowHeight/2+50);
+    fill(100, 150-loadshade);
+    // fill(50, 255-loadshade);
+    text("Press the Spacebar", windowWidth/2, 3*windowHeight/4);
+  }
+
+
+
+
   if (mouseIsPressed) {
     // console.log(int(shapes[2].amp.volume*1000));
   }
 }
 
 function mousePressed() {
-  for (var i = 0; i < shapes.length; i++) {
-    if (shapes[i].mouseover == true) {
-      selection = i+1;
-    } else if (shapes[i].mouseover == false && selection == i+1)
+  if (info == false) {
+    for (var i = 0; i < shapes.length; i++) {
+      if (shapes[i].mouseover == true) {
+        selection = i+1;
+      } else if (shapes[i].mouseover == false && selection == i+1)
       selection = 0;
+    }
   }
 }
 

@@ -11,13 +11,16 @@ function master() {
   fill(mainCol, 150);
   ellipse(lside+15, bottom+25, 16)
   fill(70, 30, 0, 255);
-  if (track[0]._paused == true) {
-    triangle(lside+13, bottom+21, lside+19, bottom+25, lside+13, bottom+29);
-  } else {
-    rectMode(CORNER);
-    rect(lside+12, bottom+21, 2, 7);
-    rect(lside+16, bottom+21, 2, 7);
-    rectMode(CORNERS);
+  noStroke();
+  if (loadcomp == shapes.length) {
+    if (track[0]._playing == false) {
+      triangle(lside+13, bottom+21, lside+19, bottom+25, lside+13, bottom+29);
+    } else {
+      rectMode(CORNER);
+      rect(lside+12, bottom+21, 2, 7);
+      rect(lside+16, bottom+21, 2, 7);
+      rectMode(CORNERS);
+    }
   }
   fill(mainCol, 150);
   stroke(200, 100, 0, 50);

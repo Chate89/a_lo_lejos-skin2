@@ -84,6 +84,7 @@ function windowResized() {
 function draw() {
   background (mainCol);
   noStroke();
+  console.log(track[0].currentTime());
 
   // shaping
   for (var i = 0; i < shapes.length; i++) {

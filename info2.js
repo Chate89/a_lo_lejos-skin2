@@ -261,6 +261,14 @@ function information() {
 
   }
 
+  // left panel information
+  noStroke();
+  fill(70, 30, 0, 255);
+  for (var i = 0; i < track.length; i++) {
+    text((track[i].currentTime()).toFixed(4), lside - 100, 100+i*30);
+  }
+
+
   noFill();
   rectMode(CORNER);
 }

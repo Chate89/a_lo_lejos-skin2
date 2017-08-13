@@ -13,6 +13,8 @@ var loadcomp = 0;
 var lateralshad = 255;
 var endTime = 164;
 var amp = [];
+var porcent = 0;
+var waveimg = [];
 // randomizer
 var versions = 5
 var raTr = [];
@@ -25,10 +27,14 @@ var mainCol = 0;
 var botlock = false;
 var loadshade;
 
+var snows = [];
+
 function preload() {
-  ampera = loadFont('data/Ampera.ttf');
   juraBook = loadFont('data/Jura-Book.ttf');
-  metadata = loadStrings('data/metadata.txt');
+  metadata = loadStrings('data/metadata.json');
+  for (var i = 0; i < numShapes; i++) {
+    waveimg[i] = loadImage("data/waveShapes/Module0" + (i+1) + "_00_1.png");
+  }
 }
 
 function setup() {
@@ -38,9 +44,13 @@ function setup() {
   bottom = windowHeight - 10;
   lside = 5;
   rside = windowWidth - 5;
-
   mouseX = windowWidth/2
   mouseY = windowHeight/2
+
+  // snow
+  for (var i = 0; i < cops; i++) {
+    snows[i] = new Snow();
+  }
 
   // shapes setup
   for (var i = 0; i < numShapes; i++) {
@@ -50,16 +60,14 @@ function setup() {
   // randomizer & track loading
   for (var i = 0; i < numShapes; i++) {
     raTr[i] = floor(random(0, versions))+1;
-    track[i] = loadSound("data/Module0" + (i+1) + "/00_" + raTr[i] + '.mp3', loaded, onended);
+    track[i] = loadSound("data/Module0" + (i+1) + "/00_" + raTr[i] + '.mp3', loaded);
   }
 
+  // amps
   for (var i = 0; i < track.length; i++) {
     amp[i] = new p5.Amplitude()
     amp[i].setInput(track[i])
   }
-
-  // amp1 = new p5.Amplitude();
-  // amp1.setInput(track[1]);
 
   // track selection asign & metadata loading
   for (var i = 0; i < shapes.length; i++) {
@@ -72,10 +80,6 @@ function loaded() {
   loadcomp++;
 }
 
-function onended() {
-    console.log("ends");
-}
-
 function windowResized() {
   bottom = windowHeight - 10;
   resizeCanvas(windowWidth, windowHeight);
@@ -84,7 +88,6 @@ function windowResized() {
 function draw() {
   background (mainCol);
   noStroke();
-  console.log(track[0].currentTime());
 
   // shaping
   for (var i = 0; i < shapes.length; i++) {
@@ -117,7 +120,6 @@ function draw() {
     }
   }
 
-
   // highlight
   hlc += 0.04;
   hl = 10+10*cos(PI*hlc);
@@ -129,31 +131,24 @@ function draw() {
     }
   }
 
-
-  //external canvas
-  fill(0);
-  noStroke();
-  // top
-  rect(0, 0, windowWidth, topy);
-  // bottom
-  rect(0, bottom, windowWidth, windowHeight);
-
-  if (lside > 10 || rside < windowWidth - 10) {
-    lateralshad = 220;
-  } else {
-    lateralshad = 255;
+  // snows
+  for (var i = 0; i < snows.length; i++) {
+    snows[i].y += snows[i].ydirection;
+    snows[i].x += snows[i].xdirection;
+    snows[i].display();
+    snows[i].sides();
   }
-  fill(0, lateralshad)
-  // left
-  rect(0, 0, lside, windowHeight);
-  // right
-  rect(rside, 0, windowWidth, windowHeight);
 
   // internal canvas
   noStroke();
   fill(0, bossfader);
   rect(lside, topy, rside-lside, bottom-topy);
 
+  // timecorrection trigger
+  if (loadcomp == 6 && abs(track[0].currentTime()-track[5].currentTime()) >= 0.1) {
+    // console.log(abs(track[0].currentTime()-track[5].currentTime()));
+    timecorrection();
+  }
 
   // loader
   if (loadcomp < shapes.length) {
@@ -211,13 +206,6 @@ function draw() {
     // fill(50, 255-loadshade);
     text("Press the Spacebar", windowWidth/2, 3*windowHeight/4);
   }
-
-
-
-
-  if (mouseIsPressed) {
-    // console.log(int(shapes[2].amp.volume*1000));
-  }
 }
 
 function mousePressed() {
@@ -243,7 +231,7 @@ function keyPressed() {
 
   // selection
   for (var i = 0; i < shapes.length+1; i++) {
-    if (key == i) {
+    if (key == i && key != ' ') {
       if (selection != i) {
         selection = i;
       } else {
@@ -325,24 +313,22 @@ function keyPressed() {
   // jump to test
   for (var i = 0; i < track.length; i++) {
     if (key == 'u' || key == 'U') {
-      track[i].jump(164);
+      track[i].jump(150);
     }
   }
 
   // play - pause
   if (key == ' ') {
-
-
-    if (track[0].isPlaying()) {
+    if (playing == true) {
       for (var i = 0; i < track.length; i++) {
         track[i].pause();
-        // track[i].
       }
     } else {
       for (var i = 0; i < track.length; i++) {
         track[i].play();
       }
     }
+
     if (playing == true) {
       playing = false;
     } else if (playing == false) {
@@ -359,12 +345,31 @@ function reset() {
 
 function panels() {
 
+  //external canvas
+  fill(0);
+  noStroke();
+  // top
+  rect(0, 0, windowWidth, topy);
+  // bottom
+  rect(0, bottom, windowWidth, windowHeight);
+
+  if (lside > 10 || rside < windowWidth - 10) {
+    lateralshad = 220;
+  } else {
+    lateralshad = 255;
+  }
+  fill(0, lateralshad)
+  // left
+  rect(0, 0, lside, windowHeight);
+  // right
+  rect(rside, 0, windowWidth, windowHeight);
+
   // panel perimeter
   noFill();
   stroke(200, 100, 0, 150);
   rect(lside, topy, rside-lside, bottom-topy, 5);
 
-  // panel slide: left
+  // panel slide: right
   if ((mouseX > rside || info == true) && (mouseIsPressed == false || rside <= windowWidth-200)) {
     if (rside <= windowWidth-200) {
       rside = windowWidth-200
@@ -404,7 +409,7 @@ function panels() {
       }
     } else {
       if (bottom < windowHeight-10) {
-        bottom += 5;
+        bottom += 3;
       } else {
         bottom = windowHeight-10;
       }
@@ -412,4 +417,33 @@ function panels() {
   } else {
     bottom = windowHeight-50;
   }
+
+  // panel slide: top
+  if (botlock == false) {
+    if ((mouseY < topy || info == true) && (mouseIsPressed == false || topy >= 135) && selection != 0) {
+      if (topy >= 135) {
+        topy = 135
+      } else {
+        topy += 7;
+      }
+    } else {
+      if (topy > 10) {
+        topy -= 5;
+      } else {
+        topy = 10;
+      }
+    }
+  } else {
+    topy = 135;
+  }
+
+}
+
+function timecorrection() {
+  // for (var i = 1; i < track.length; i++) {
+  //   if (abs(track[i].currentTime()-track[0].currentTime()) >= 0.1) {
+      // track[i].jump(100);
+      // track[i].play(track[0].currentTime());
+  //   }
+  // }
 }

@@ -12,7 +12,7 @@ var zomrel = 0.8;
 
 
 function information() {
-  textFont("Helvetica");
+  // textFont("Helvetica");
   if (stroSatI > 150) {
     stroSatI ++;
   } else {
@@ -35,7 +35,6 @@ function information() {
     }
   }
 
-
   // controls
   fill(0);
   rectMode(CENTER);
@@ -52,7 +51,7 @@ function information() {
   rect(windowWidth/2-115+xpos, windowHeight/2+100+ypos, 270, 40, 5);
   fill(200, 100, 0, 200);
   noStroke();
-  textSize(10);
+  textSize(14);
   text("spacebar", windowWidth/2-115+xpos, windowHeight/2+115+ypos);
   noFill();
   stroke(200, 100, 0, stroSatI);
@@ -65,7 +64,6 @@ function information() {
   rect(windowWidth/2+200+xpos, windowHeight/2+100+ypos, 40, 40, 5);
   fill(200, 100, 0, 200);
   noStroke();
-  textSize(10);
   text("L", windowWidth/2+188+xpos, windowHeight/2+115+ypos);
   noFill();
   stroke(200, 100, 0, stroSatI);
@@ -78,7 +76,6 @@ function information() {
   rect(windowWidth/2+250+xpos, windowHeight/2+100+ypos, 40, 40, 5);
   fill(200, 100, 0, 200);
   noStroke();
-  textSize(10);
   text("Down", windowWidth/2+250+xpos, windowHeight/2+115+ypos);
   noFill();
   stroke(200, 100, 0, stroSatI);
@@ -91,7 +88,6 @@ function information() {
   rect(windowWidth/2+300+xpos, windowHeight/2+100+ypos, 40, 40, 5);
   fill(200, 100, 0, 200);
   noStroke();
-  textSize(10);
   text("R", windowWidth/2+288+xpos, windowHeight/2+115+ypos);
   noFill();
   stroke(200, 100, 0, 150);
@@ -104,7 +100,6 @@ function information() {
   rect(windowWidth/2+250+xpos, windowHeight/2+50+ypos, 40, 40, 5);
   fill(200, 100, 0, 200);
   noStroke();
-  textSize(10);
   text("Up", windowWidth/2+250+xpos, windowHeight/2+65+ypos);
   noFill();
   stroke(200, 100, 0, stroSatI);
@@ -119,7 +114,6 @@ function information() {
     rect(windowWidth/2-350+(i*50)+xpos, windowHeight/2-100+ypos, 40, 40, 5);
     fill(200, 100, 0, 200);
     noStroke();
-    textSize(10);
     text((i+1), windowWidth/2-360+(i*50)+xpos, windowHeight/2-85+ypos);
     noFill();
     stroke(200, 100, 0, stroSatI);
@@ -134,7 +128,6 @@ function information() {
   rect(windowWidth/2+100+xpos, windowHeight/2+50+ypos, 80, 40, 5);
   fill(200, 100, 0, 200);
   noStroke();
-  textSize(10);
   text("Shift", windowWidth/2-353+xpos, windowHeight/2+65+ypos);
   text("Shift", windowWidth/2+77+xpos, windowHeight/2+65+ypos);
   noFill();
@@ -149,7 +142,6 @@ function information() {
   rect(windowWidth/2+120+xpos, windowHeight/2+100+ypos, 40, 40, 5);
   fill(200, 100, 0, 200);
   noStroke();
-  textSize(10);
   text("Ctrl", windowWidth/2-357+xpos, windowHeight/2+115+ypos);
   text("Ctrl", windowWidth/2+113+xpos, windowHeight/2+115+ypos);
   noFill();
@@ -169,7 +161,6 @@ function information() {
   rect(windowWidth/2-300+xpos, windowHeight/2+ypos, 40, 40, 5);
   fill(200, 100, 0, 200);
   noStroke();
-  textSize(10);
   text("S", windowWidth/2-310+xpos, windowHeight/2+15+ypos);
   fill(0);
   stroke(200, 100, 0, stroSatI);
@@ -186,7 +177,6 @@ function information() {
   rect(windowWidth/2+xpos, windowHeight/2+50+ypos, 40, 40, 5);
   fill(200, 100, 0, 200);
   noStroke();
-  textSize(10);
   text("M", windowWidth/2-10+xpos, windowHeight/2+65+ypos);
   noFill();
   stroke(200, 100, 0, stroSatI);
@@ -214,14 +204,13 @@ function information() {
 
   // selected shape
 
+  yinfo = topy+(bottom - topy)/3;
   if (windowHeight > 650) {
-    yinfo = windowHeight-550;
     zomrel = 0.5
   } else {
-    yinfo = windowHeight-480;
-    zomrel = 0.35
+    zomrel = 0.3
   }
-  xinfo = windowWidth/2;
+  xinfo = 2*(rside+lside)/3;
 
   // box
   fill(0, 200);
@@ -229,7 +218,7 @@ function information() {
   if (windowHeight > 650) {
     rect(xinfo, yinfo, 400, 350, 10, 10, 10, 10)
   } else {
-    rect(xinfo, yinfo, 400, 250, 7, 7, 7, 7)
+    rect(xinfo, yinfo, 400, 280, 7, 7, 7, 7)
   }
 
 
@@ -263,7 +252,7 @@ function information() {
 
   // left panel information
   noStroke();
-  fill(70, 30, 0, 255);
+  fill(255);
   for (var i = 0; i < track.length; i++) {
     text((track[i].currentTime()).toFixed(4), lside - 100, 100+i*30);
   }

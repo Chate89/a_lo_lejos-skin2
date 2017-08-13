@@ -29,4 +29,64 @@ function master() {
   rect(lside+30, bottom + 20, lside+38+(rside-48-lside)*(track[0].currentTime()/endTime), bottom + 30, 3, 3, 3, 3);
   // text(int(track[0].currentTime()), lside+11+(rside-10)*(track[0].currentTime()/endTime), windowHeight-20)
   rectMode(CORNER);
+
+  // waveform display
+
+  // noStroke();
+  // imageMode(CORNERS);
+  // if (playing == false) {
+  //   tint(150);
+  // } else {
+  //   if (selection != 0) {
+  //     if (shapes[selection-1].muted == false) {
+  //       tint(shapes[selection-1].redvalon, shapes[selection-1].grenvalon, shapes[selection-1].bluevalon);
+  //     } else {
+  //       tint(150);
+  //     }
+  //   }
+  // }
+  // if (selection != 0) {
+  //   image(waveimg[selection-1], lside+1, topy-waveimg[0].height, rside-1, topy-1)
+  //   rectMode(CORNERS);
+  //   fill(0, 200);
+  //   rect(lside+1+int((rside-lside)*(track[0].currentTime()/endTime)), topy-waveimg[0].height, rside-1, topy-1);
+  //   rectMode(CORNER);
+  // }
+  //
+  // // time
+  // if (playing == false) {
+  //   fill(150);
+  // } else {
+  //   if (selection != 0) {
+  //     if (shapes[selection-1].muted == false) {
+  //       fill(shapes[selection-1].redvalon, shapes[selection-1].grenvalon, shapes[selection-1].bluevalon);
+  //     } else {
+  //       fill(150);
+  //     }
+  //   }
+  // }
+  //
+  // if (playing == false) {
+  //   stroke(150);
+  // } else {
+  //   if (selection != 0) {
+  //     if (shapes[selection-1].muted == false) {
+  //       stroke(shapes[selection-1].redvalon, shapes[selection-1].grenvalon, shapes[selection-1].bluevalon);
+  //     } else {
+  //       stroke(150);
+  //     }
+  //   }
+  // }
+  // line(lside+1+int((rside-lside)*(track[0].currentTime()/endTime)), topy-45,
+  // lside+1+int((rside-lside)*(track[0].currentTime()/endTime)), topy-11);
+  //
+  // noStroke();
+  // textSize(15);
+  // textAlign(LEFT)
+  // if (lside+1+int((rside-lside)*(track[0].currentTime()/endTime)) < rside - 40) {
+  //   text((track[0].currentTime()).toFixed(1), lside+3+int((rside-lside)*(track[0].currentTime()/endTime)), topy - 10)
+  // } else {
+  //   text((track[0].currentTime()).toFixed(1), rside - 40, topy - 10)
+  // }
+
 }

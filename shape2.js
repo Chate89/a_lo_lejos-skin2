@@ -32,7 +32,7 @@ function Shape() {
   // rotation: position, velocity and direction
   this.rotation = random(1, 10);
   this.rotdir = (random(-1, 1));
-  this.rotvelon = random(0.0002, 0.002);
+  this.rotvelon = random(0.001, 0.002);
 
   // node xy
   this.centX = 0;

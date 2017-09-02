@@ -263,7 +263,7 @@ function information() {
     }
   } else {
     for (var j = 0; j < numShapes; j++) {
-      fill(200, 100, 0);
+      fill(150, 150, 150);
       for (var i = 0; i < octavespect[j].length; i++){
         var x = map(i, 0, octavespect[j].length, xinfo-250-150, xinfo-250+150);
         var h = -85 + map(octavespect[j][i], 0, 255, 85, 5);

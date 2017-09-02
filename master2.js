@@ -30,6 +30,15 @@ function master() {
   // text(int(track[0].currentTime()), lside+11+(rside-10)*(track[0].currentTime()/endTime), windowHeight-20)
   rectMode(CORNER);
 
+  // over info button
+  if (mouseX >= lside+30-15 && mouseX <= lside+30+15 &&
+  mouseY >= topy+30-15 && mouseY <= topy+30+15) {
+      overI = true;
+    } else {
+      overI = false;
+  }
+
+
   // waveform display
 
   // noStroke();

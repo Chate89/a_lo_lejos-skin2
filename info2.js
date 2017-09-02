@@ -9,6 +9,10 @@ var xinfo2 = 0;
 var yinfo2 = 0;
 var zomrel = 0.8;
 
+var octavespect = [];
+var spectrumshow = 0;
+
+
 
 
 function information() {
@@ -19,10 +23,10 @@ function information() {
     stroSatI = 150;
   }
 
-  if (windowHeight > 650) {
+  if (windowHeight > 680) {
     ypos = bottom-550;
   } else {
-    ypos = bottom-480;
+    ypos = bottom-465;
   }
 
   if (loadcomp < shapes.length) {
@@ -204,22 +208,109 @@ function information() {
 
   // selected shape
 
-  yinfo = topy+(bottom - topy)/3;
-  if (windowHeight > 650) {
-    zomrel = 0.5
+  // yinfo = 10+(bottom - 20)/3;
+  if (windowHeight > 680) {
+    yinfo = ((bottom - 20)/3)-10;
+    zomrel = 0.45
   } else {
-    zomrel = 0.3
+    yinfo = ((bottom - 20)/3)-20;
+    zomrel = 0.25
   }
-  xinfo = 2*(rside+lside)/3;
+  xinfo = (rside+lside)/2;
+  // xinfo = 2*(rside+lside)/3;
 
-  // box
+  // main box
   fill(0, 200);
   rectMode(CENTER);
-  if (windowHeight > 650) {
-    rect(xinfo, yinfo, 400, 350, 10, 10, 10, 10)
+  if (windowHeight > 680) {
+    rect(xinfo+200, yinfo, 400, 350, 10, 10, 10, 10)
   } else {
-    rect(xinfo, yinfo, 400, 280, 7, 7, 7, 7)
+    rect(xinfo+200, yinfo, 400, 280, 7, 7, 7, 7)
   }
+
+  // EQ box
+  fill(0, 200);
+  rectMode(CENTER);
+  if (windowHeight > 680) {
+    rect(xinfo-253, yinfo, 300, 100, 10, 10, 10, 10)
+  } else {
+    rect(xinfo-253, yinfo, 300, 100, 7, 7, 7, 7)
+  }
+
+  // fft analyse
+  // fft.analyze();
+
+  // eq bars
+  rectMode(CORNER);
+  noStroke();
+  for (var i = 0; i < numShapes; i++) {
+    octavespect[i] = ffts[i].logAverages(ffts[i].getOctaveBands());
+  }
+  if (selection != 0 && loadcomp == 6) {
+    for (var j = 0; j < numShapes; j++) {
+      fill(20, 20, 20);
+      for (var i = 0; i < octavespect[j].length; i++){
+        var x = map(i, 0, octavespect[j].length, xinfo-250-150, xinfo-250+150);
+        var h = -85 + map(octavespect[j][i], 0, 255, 85, 5);
+        rect(x, yinfo+45, 3, h);
+      }
+    }
+    fill(redvaleq[selection-1], greenvaleq[selection-1], bluevaleq[selection-1]);
+    for (var i = 0; i < octavespect[selection-1].length; i++){
+      var x = map(i, 0, octavespect[selection-1].length, xinfo-250-150, xinfo-250+150);
+      var h = -85 + map(octavespect[selection-1][i], 0, 255, 85, 5);
+      rect(x, yinfo+45, 3, h);
+    }
+  } else {
+    for (var j = 0; j < numShapes; j++) {
+      fill(200, 100, 0);
+      for (var i = 0; i < octavespect[j].length; i++){
+        var x = map(i, 0, octavespect[j].length, xinfo-250-150, xinfo-250+150);
+        var h = -85 + map(octavespect[j][i], 0, 255, 85, 5);
+        rect(x, yinfo+45, 3, h);
+      }
+    }
+  }
+
+
+  rectMode(CENTER);
+  stroke(200, 100, 0, stroSatI);
+  // channel volume
+  fill(0, 200);
+  if (windowHeight > 680) {
+    rect(xinfo-220+200, yinfo, 15, 350, 5, 5, 5, 5);
+    rect(xinfo+220+200, yinfo, 15, 350, 5, 5, 5, 5);
+  } else {
+    rect(xinfo-220+200, yinfo, 15, 280, 5, 5, 5, 5);
+    rect(xinfo+220+200, yinfo, 15, 280, 5, 5, 5, 5);
+  }
+
+  rectMode(CORNERS);
+  fill(200, 100, 0);
+
+  if (selection != 0 && loadcomp == 6) {
+    if (windowHeight > 680) {
+      if (shapes[selection-1].pan < 0) {
+        rect(xinfo-223+200, yinfo+170, xinfo-217+200, yinfo+170-shapes[selection-1].amp*(1+abs(shapes[selection-1].pan))*zomrel);
+        rect(xinfo+223+200, yinfo+170, xinfo+217+200, yinfo+170-shapes[selection-1].amp*(1-abs(shapes[selection-1].pan))*zomrel);
+      } else {
+        rect(xinfo-223+200, yinfo+170, xinfo-217+200, yinfo+170-shapes[selection-1].amp*(1-abs(shapes[selection-1].pan))*zomrel);
+        rect(xinfo+223+200, yinfo+170, xinfo+217+200, yinfo+170-shapes[selection-1].amp*(1+abs(shapes[selection-1].pan))*zomrel);
+      }
+    } else {
+      if (shapes[selection-1].pan < 0) {
+        rect(xinfo-223+200, yinfo+135, xinfo-217+200, yinfo+135-shapes[selection-1].amp*(1+abs(shapes[selection-1].pan))*zomrel);
+        rect(xinfo+223+200, yinfo+135, xinfo+217+200, yinfo+135-shapes[selection-1].amp*(1-abs(shapes[selection-1].pan))*zomrel);
+      } else {
+          rect(xinfo-223+200, yinfo+135, xinfo-217+200, yinfo+135-shapes[selection-1].amp*(1-abs(shapes[selection-1].pan))*zomrel);
+          rect(xinfo+223+200, yinfo+135, xinfo+217+200, yinfo+135-shapes[selection-1].amp*(1+abs(shapes[selection-1].pan))*zomrel);
+      }
+    }
+  }
+
+  rectMode(CENTER);
+
+
 
 
   // visualisation
@@ -230,7 +321,7 @@ function information() {
     fill(0);
     beginShape();
     for (var i = 0; i < PI*4; i += PI/(shapes[selection-1].nodes/2)) {
-      xinfo2 = xinfo + (shapes[selection-1].amp/5+shapes[selection-1].size*zomrel)*sin(i+shapes[selection-1].rotation)/2;
+      xinfo2 = xinfo+200 + (shapes[selection-1].amp/5+shapes[selection-1].size*zomrel)*sin(i+shapes[selection-1].rotation)/2;
       yinfo2 = yinfo + (shapes[selection-1].amp/5+shapes[selection-1].size*zomrel)*cos(i+shapes[selection-1].rotation)/2;
       shapes[selection-1].sat = 50+shapes[selection-1].amp/2;
       curveVertex (xinfo2, yinfo2);
@@ -241,14 +332,16 @@ function information() {
     fill(shapes[selection-1].redval, shapes[selection-1].grenval, shapes[selection-1].blueval, shapes[selection-1].sat);
     beginShape();
     for (var i = 0; i < PI*4; i += PI/(shapes[selection-1].nodes/2)) {
-      xinfo2 = xinfo + (shapes[selection-1].amp/5+shapes[selection-1].size*zomrel)*sin(i+shapes[selection-1].rotation)/2;
+      xinfo2 = xinfo+200 + (shapes[selection-1].amp/5+shapes[selection-1].size*zomrel)*sin(i+shapes[selection-1].rotation)/2;
       yinfo2 = yinfo + (shapes[selection-1].amp/5+shapes[selection-1].size*zomrel)*cos(i+shapes[selection-1].rotation)/2;
       shapes[selection-1].sat = 50+shapes[selection-1].amp/2;
       curveVertex (xinfo2, yinfo2);
     }
     endShape();
-
   }
+
+
+
 
   // left panel information
   noStroke();

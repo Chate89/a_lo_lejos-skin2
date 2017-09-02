@@ -15,6 +15,15 @@ var endTime = 164;
 var amp = [];
 var porcent = 0;
 var waveimg = [];
+var filters = [];
+var fft;
+var ffts = [];
+var fftscon = 0;
+var redvaleq = [];
+var greenvaleq = [];
+var bluevaleq = [];
+
+
 // randomizer
 var versions = 5
 var raTr = [];
@@ -26,6 +35,9 @@ var info = false;
 var mainCol = 0;
 var botlock = false;
 var loadshade;
+var overI = false;
+var wheel = 0;
+
 
 var snows = [];
 
@@ -63,6 +75,23 @@ function setup() {
     track[i] = loadSound("data/Module0" + (i+1) + "/00_" + raTr[i] + '.mp3', loaded);
   }
 
+  // ffts
+  for (var i = 0; i < numShapes; i++) {
+    ffts[i] = new p5.FFT();
+    ffts[i].setInput(track[i]);
+  }
+
+  // filters
+  for (var i = 0; i < track.length; i++) {
+    filter[i] = new p5.BandPass()
+    filter[i].res(1);
+  }
+  for (var i = 0; i < track.length; i++) {
+    track[i].disconnect();
+    track[i].connect(filter[i]);
+  }
+
+
   // amps
   for (var i = 0; i < track.length; i++) {
     amp[i] = new p5.Amplitude()
@@ -74,6 +103,13 @@ function setup() {
     shapes[i].selection = i;
     shapes[i].metadata();
   }
+
+  for (var i = 0; i < numShapes; i++) {
+    redvaleq[i] = floor(random(0, 255));
+    greenvaleq[i] = floor(random(0, 255));
+    bluevaleq[i] = floor(random(0, 255));
+  }
+
 }
 
 function loaded() {
@@ -88,6 +124,17 @@ function windowResized() {
 function draw() {
   background (mainCol);
   noStroke();
+  // if (loadcomp == 6) {
+  //   console.log(pow(10, map(shapes[0].y, 20, windowHeight-20, 4.2, 1)));
+  // }
+
+  for (var i = 0; i < shapes.length; i++) {
+    ffts[i].analyze();
+  }
+
+  for (var i = 0; i < shapes.length; i++) {
+    filter[i].freq(shapes[i].freq);
+  }
 
   // shaping
   for (var i = 0; i < shapes.length; i++) {
@@ -97,11 +144,19 @@ function draw() {
     shapes[i].boost();
     shapes[i].sides();
     shapes[i].sizer();
-    shapes[i].sound();
     shapes[i].mouseinteraction();
     amp[i].smoothing = 0.9;
     shapes[i].amp = amp[i].volume*2000;
+    shapes[i].sound();
   }
+  wheel = 0;
+
+  // fft.analyze();
+  // for (var i = 0; i < ffts.length; i++) {
+  //   ffts[i].analyze();
+  // }
+
+
 
   // play trigger
   for (var i = 0; i < shapes.length; i++) {
@@ -178,6 +233,32 @@ function draw() {
     }
   }
 
+  // info button
+  if (info == true) {
+    fill(70, 30, 0, 255);
+  } else {
+    fill(0, 200);
+  }
+  if (overI == true) {
+    stroke(200, 100, 0, 255);
+  } else {
+    stroke(200, 100, 0, 100);
+  }
+  rectMode(CENTER)
+  rect(lside+30, topy+30, 30, 30, 5);
+  fill(200, 100, 0, 100);
+  noStroke();
+  textSize(12);
+  textFont('Arial');
+  textStyle(ITALIC);
+  text("Info", lside+30, topy+34);
+  textStyle(NORMAL);
+  noFill();
+  stroke(200, 100, 0, stroSatI);
+  rectMode(CORNER);
+  textFont(juraBook);
+
+
   // calls all front panels
   panels();
   // calls master control
@@ -217,6 +298,18 @@ function mousePressed() {
       selection = 0;
     }
   }
+  if (overI == true) {
+    if (info == false) {
+      info = true;
+    } else {
+      info = false;
+    }
+  }
+
+}
+
+function mouseWheel(event) {
+  wheel = -event.delta;
 }
 
 function keyPressed() {
@@ -420,7 +513,7 @@ function panels() {
 
   // panel slide: top
   if (botlock == false) {
-    if ((mouseY < topy || info == true) && (mouseIsPressed == false || topy >= 135) && selection != 0) {
+    if ((mouseY < topy) && (mouseIsPressed == false || topy >= 135)) {
       if (topy >= 135) {
         topy = 135
       } else {
@@ -440,10 +533,10 @@ function panels() {
 }
 
 function timecorrection() {
-  // for (var i = 1; i < track.length; i++) {
-  //   if (abs(track[i].currentTime()-track[0].currentTime()) >= 0.1) {
+  for (var i = 1; i < track.length; i++) {
+    if (abs(track[i].currentTime()-track[0].currentTime()) >= 0.1) {
       // track[i].jump(100);
-      // track[i].play(track[0].currentTime());
-  //   }
-  // }
+      track[i].pauseTime
+    }
+  }
 }

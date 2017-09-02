@@ -9,7 +9,8 @@ function Shape() {
     // center xy
     this.x = this.metapan;
     this.size = this.metavol;
-    this.y = random(30,windowHeight-30);
+    this.y = windowHeight/2;
+
   }
 
   // muted
@@ -61,6 +62,9 @@ function Shape() {
 
   // amp
   this.amp = 0;
+
+  // filter
+  this.freq = 0;
 
   //mouseover
   this.overing = function() {
@@ -202,6 +206,7 @@ function Shape() {
   // size
   this.sizer = function() {
     if (this.selection == selection-1) {
+      this.size += wheel;
       if (keyIsDown(SHIFT)) {
         this.size += 5;
       } else if (keyIsDown(CONTROL)) {
@@ -216,6 +221,7 @@ function Shape() {
 
   // audio
   this.sound = function () {
+    this.freq = pow(10, map(this.y, 20, windowHeight-20, 4.2, 2))
     if (this.muted == true) {
       this.volume = 0;
     } else {
@@ -225,6 +231,7 @@ function Shape() {
     track[this.selection].setVolume(this.volume/100);
     track[this.selection].pan(this.pan);
   }
+
 
   // mouse interaction
   this.mouseinteraction = function () {

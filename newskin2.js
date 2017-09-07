@@ -209,6 +209,14 @@ function draw() {
     timecorrection();
   }
 
+  // snows
+  for (var i = 0; i < snows.length; i++) {
+    snows[i].y += snows[i].ydirection;
+    snows[i].x += snows[i].xdirection;
+    snows[i].display();
+    snows[i].sides();
+  }
+
   // loader
   if (loadcomp < shapes.length) {
     bossfader = 255;
@@ -267,14 +275,6 @@ function draw() {
   panels();
   // calls master control
   master();
-
-  // snows
-  for (var i = 0; i < snows.length; i++) {
-    snows[i].y += snows[i].ydirection;
-    snows[i].x += snows[i].xdirection;
-    snows[i].display();
-    snows[i].sides();
-  }
 
   if (scrchshade < 1) {
     if (mainshade > 0) {

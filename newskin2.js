@@ -22,8 +22,6 @@ var fftscon = 0;
 var redvaleq = [];
 var greenvaleq = [];
 var bluevaleq = [];
-
-
 // randomizer
 var versions = 5
 var raTr = [];
@@ -37,6 +35,11 @@ var botlock = false;
 var loadshade;
 var overI = false;
 var wheel = 0;
+
+//fullscreen choose
+var screench = false;
+var scrchshade = 255;
+var mainshade = 255;
 
 
 var snows = [];
@@ -137,17 +140,19 @@ function draw() {
   }
 
   // shaping
-  for (var i = 0; i < shapes.length; i++) {
-    // shapes[i].nodes = raTr[i]+1;
-    shapes[i].display();
-    shapes[i].overing();
-    shapes[i].boost();
-    shapes[i].sides();
-    shapes[i].sizer();
-    shapes[i].mouseinteraction();
-    amp[i].smoothing = 0.9;
-    shapes[i].amp = amp[i].volume*2000;
-    shapes[i].sound();
+  if (scrchshade < 1) {
+    for (var i = 0; i < shapes.length; i++) {
+      // shapes[i].nodes = raTr[i]+1;
+      shapes[i].display();
+      shapes[i].overing();
+      shapes[i].boost();
+      shapes[i].sides();
+      shapes[i].sizer();
+      shapes[i].mouseinteraction();
+      amp[i].smoothing = 0.9;
+      shapes[i].amp = amp[i].volume*2000;
+      shapes[i].sound();
+    }
   }
   wheel = 0;
 
@@ -186,13 +191,12 @@ function draw() {
     }
   }
 
-  // snows
-  for (var i = 0; i < snows.length; i++) {
-    snows[i].y += snows[i].ydirection;
-    snows[i].x += snows[i].xdirection;
-    snows[i].display();
-    snows[i].sides();
-  }
+
+
+
+
+  rectMode(CORNER);
+
 
   // internal canvas
   noStroke();
@@ -264,6 +268,65 @@ function draw() {
   // calls master control
   master();
 
+  // snows
+  for (var i = 0; i < snows.length; i++) {
+    snows[i].y += snows[i].ydirection;
+    snows[i].x += snows[i].xdirection;
+    snows[i].display();
+    snows[i].sides();
+  }
+
+  if (scrchshade < 1) {
+    if (mainshade > 0) {
+      mainshade -= 3;
+    } else {
+      mainshade = 0;
+    }
+  } else {
+    mainshade = 255;
+  }
+  noStroke();
+  fill(0, mainshade);
+  rect(0, 0, windowWidth, windowHeight);
+
+  if (screench == false) {
+    scrchshade = 120;
+  } else {
+    if (scrchshade <= 0) {
+      scrchshade = 0;
+    } else {
+      scrchshade -= 3;
+    }
+  }
+
+  // screen choose
+    rectMode(CENTER);
+    noFill();
+    stroke(200, 100, 0, scrchshade);
+    rect(windowWidth/2, windowHeight/2-20, 350, 130, 5, 5, 5, 5);
+    if (mouseX >= windowWidth/2-150 && mouseX <= windowWidth/2-50 &&
+    mouseY >= windowHeight/2-25 && mouseY <= windowHeight/2+25) {
+      stroke(200, 100, 0, scrchshade*2);
+    } else {
+      stroke(200, 100, 0, scrchshade);
+    }
+    rect(windowWidth/2-100, windowHeight/2, 100, 50, 5, 5, 5, 5);
+
+    if (mouseX >= windowWidth/2+50 && mouseX <= windowWidth/2+150 &&
+    mouseY >= windowHeight/2-25 && mouseY <= windowHeight/2+25) {
+      stroke(200, 100, 0, scrchshade*2);
+    } else {
+      stroke(200, 100, 0, scrchshade);
+    }
+    rect(windowWidth/2+100, windowHeight/2, 100, 50, 5, 5, 5, 5);
+    fill(200, 100, 0, scrchshade);
+    stroke(200, 100, 0, scrchshade);
+    textSize(25);
+    text("choose the screen mode", windowWidth/2, windowHeight/2-50)
+    textSize(15);
+    text("windowed", windowWidth/2-100, windowHeight/2);
+    text("fullscreen", windowWidth/2+100, windowHeight/2);
+
   // loading state
   textAlign(CENTER);
   textFont(juraBook);
@@ -278,15 +341,20 @@ function draw() {
   }
   if (playing == false && info  == false) {
     noStroke();
-    fill(50, loadshade);
-    textSize(50);
-    text("Loading Tracks", windowWidth/2, windowHeight/2);
-    textSize(30);
-    text("(" + loadcomp + " of " + track.length +")",  windowWidth/2, windowHeight/2+50);
+    fill(100, 50, 0, loadshade);
+    textSize(20);
+    text("Loading Tracks", windowWidth/2, windowHeight/2+100);
+    textSize(20);
+    text("(" + loadcomp + " of " + track.length +")",  windowWidth/2, windowHeight/2+120);
     fill(100, 150-loadshade);
     // fill(50, 255-loadshade);
-    text("Press the Spacebar", windowWidth/2, 3*windowHeight/4);
+    if (screench == true) {
+      text("Press the Spacebar", windowWidth/2, 3*windowHeight/4);
+    } else {
+
+    }
   }
+
 }
 
 function mousePressed() {
@@ -298,11 +366,23 @@ function mousePressed() {
       selection = 0;
     }
   }
-  if (overI == true) {
-    if (info == false) {
-      info = true;
-    } else {
-      info = false;
+  if (screench == true) {
+    if (overI == true) {
+      if (info == false) {
+        info = true;
+      } else {
+        info = false;
+      }
+    }
+  } else {
+    if (mouseX >= windowWidth/2-150 && mouseX <= windowWidth/2-50 &&
+    mouseY >= windowHeight/2-25 && mouseY <= windowHeight/2+25) {
+      fullscreen(false);
+      screench = true;
+    } else if (mouseX >= windowWidth/2+50 && mouseX <= windowWidth/2+150 &&
+    mouseY >= windowHeight/2-25 && mouseY <= windowHeight/2+25) {
+      fullscreen(true);
+      screench = true;
     }
   }
 
@@ -314,7 +394,7 @@ function mouseWheel(event) {
 
 function keyPressed() {
   // info
-  if (key == 'i' || key == 'I' || keyCode == ESCAPE) {
+  if ((key == 'i' || key == 'I' || keyCode == ESCAPE) && screench == true) {
     if (info == false) {
       info = true;
     } else if (info == true) {
@@ -339,6 +419,9 @@ function keyPressed() {
       fullscreen(true);
     } else if (fullscreen(true)) {
       fullscreen(false);
+    }
+    if (screench == false) {
+      screench = true;
     }
   }
 

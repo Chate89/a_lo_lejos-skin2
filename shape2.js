@@ -6,10 +6,13 @@ function Shape() {
   this.metadata = function () {
     this.metavol = floor(map((split(metadata[this.selection*5],":")[1]), 0, 100, 0, 500));
     this.metapan = floor(map((split(metadata[1+this.selection*5],":")[1]), -50, 50, 20, windowWidth-20));
+    this.metafreq = float((split(metadata[2+this.selection*5],":")[1]));
     // center xy
-    this.x = this.metapan;
     this.size = this.metavol;
-    this.y = windowHeight/2;
+    this.x = this.metapan;
+    this.y = map(this.metafreq, 0, 1, windowHeight-20, 20);
+
+    // this.freq = pow(10, map(this.y, 20, windowHeight-20, 4.2, 2))
 
   }
 
@@ -64,7 +67,7 @@ function Shape() {
   this.amp = 0;
 
   // filter
-  this.freq = 0;
+  this.freq = this.metafreq;
 
   //mouseover
   this.overing = function() {
@@ -101,6 +104,9 @@ function Shape() {
       curveVertex (this.centX, this.centY);
     }
     endShape();
+    textAlign(CENTER);
+    textSize(15);
+    text(floor(this.freq), this.x, this.y)
 
 
     if (this.size <= 0) {

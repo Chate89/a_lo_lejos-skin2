@@ -41,6 +41,8 @@ var screench = false;
 var scrchshade = 255;
 var mainshade = 255;
 
+var loadingtotal = 0;
+
 
 var snows = [];
 
@@ -77,6 +79,7 @@ function setup() {
     raTr[i] = floor(random(0, versions))+1;
     track[i] = loadSound("data/Module0" + (i+1) + "/00_" + raTr[i] + '.mp3', loaded);
   }
+
 
   // ffts
   for (var i = 0; i < numShapes; i++) {
@@ -130,6 +133,7 @@ function draw() {
   // if (loadcomp == 6) {
   //   console.log(pow(10, map(shapes[0].y, 20, windowHeight-20, 4.2, 1)));
   // }
+
 
   for (var i = 0; i < shapes.length; i++) {
     ffts[i].analyze();
@@ -354,6 +358,7 @@ function draw() {
 
     }
   }
+  // console.log(map(shapes[0].y, 20, windowHeight-20, xinfo-253-150, xinfo-253+150));
 
 }
 

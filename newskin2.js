@@ -42,6 +42,7 @@ var scrchshade = 255;
 var mainshade = 255;
 
 var loadingtotal = 0;
+var nav;
 
 
 var snows = [];
@@ -49,9 +50,9 @@ var snows = [];
 function preload() {
   juraBook = loadFont('data/Jura-Book.ttf');
   metadata = loadStrings('data/metadata.json');
-  for (var i = 0; i < numShapes; i++) {
-    waveimg[i] = loadImage("data/waveShapes/Module0" + (i+1) + "_00_1.png");
-  }
+  // for (var i = 0; i < numShapes; i++) {
+  //   waveimg[i] = loadImage("data/waveShapes/Module0" + (i+1) + "_00_1.png");
+  // }
 }
 
 function setup() {
@@ -63,6 +64,29 @@ function setup() {
   rside = windowWidth - 5;
   mouseX = windowWidth/2
   mouseY = windowHeight/2
+
+ // navigator
+
+ //Check if browser is IE
+   if (navigator.userAgent.search("MSIE") >= 0) {
+     nav = 'ie';
+   }
+   //Check if browser is Chrome
+   else if (navigator.userAgent.search("Chrome") >= 0) {
+     nav = 'ch';
+   }
+   //Check if browser is Firefox
+   else if (navigator.userAgent.search("Firefox") >= 0) {
+     nav = 'ff';
+   }
+   //Check if browser is Safari
+   else if (navigator.userAgent.search("Safari") >= 0 && navigator.userAgent.search("Chrome") < 0) {
+     nav = 'sf';
+   }
+   //Check if browser is Opera
+   else if (navigator.userAgent.search("Opera") >= 0) {
+     nav = 'op';
+   }
 
   // snow
   for (var i = 0; i < cops; i++) {
@@ -79,7 +103,6 @@ function setup() {
     raTr[i] = floor(random(0, versions))+1;
     track[i] = loadSound("data/Module0" + (i+1) + "/00_" + raTr[i] + '.mp3', loaded);
   }
-
 
   // ffts
   for (var i = 0; i < numShapes; i++) {
@@ -305,15 +328,17 @@ function draw() {
 
   // screen choose
     rectMode(CENTER);
-    noFill();
+    fill(200, 120, 0, scrchshade/2-45);
     stroke(200, 100, 0, scrchshade);
     rect(windowWidth/2, windowHeight/2-20, 350, 130, 5, 5, 5, 5);
+    noFill();
     if (mouseX >= windowWidth/2-150 && mouseX <= windowWidth/2-50 &&
     mouseY >= windowHeight/2-25 && mouseY <= windowHeight/2+25) {
       stroke(200, 100, 0, scrchshade*2);
     } else {
       stroke(200, 100, 0, scrchshade);
     }
+    fill(200, 120, 0, scrchshade/2-45);
     rect(windowWidth/2-100, windowHeight/2, 100, 50, 5, 5, 5, 5);
 
     if (mouseX >= windowWidth/2+50 && mouseX <= windowWidth/2+150 &&
@@ -324,7 +349,8 @@ function draw() {
     }
     rect(windowWidth/2+100, windowHeight/2, 100, 50, 5, 5, 5, 5);
     fill(200, 100, 0, scrchshade);
-    stroke(200, 100, 0, scrchshade);
+    // stroke(200, 100, 0, scrchshade);
+    noStroke();
     textSize(25);
     text("choose the screen mode", windowWidth/2, windowHeight/2-50)
     textSize(15);
@@ -351,18 +377,15 @@ function draw() {
     textSize(20);
     text("(" + loadcomp + " of " + track.length +")",  windowWidth/2, windowHeight/2+120);
     fill(100, 150-loadshade);
-    // fill(50, 255-loadshade);
+    fill(50, 255-loadshade);
     if (screench == true) {
       text("Press the Spacebar", windowWidth/2, 3*windowHeight/4);
-    } else {
-
     }
   }
-  // console.log(map(shapes[0].y, 20, windowHeight-20, xinfo-253-150, xinfo-253+150));
-
 }
 
 function mousePressed() {
+  // info
   if (info == false) {
     for (var i = 0; i < shapes.length; i++) {
       if (shapes[i].mouseover == true) {
@@ -371,6 +394,8 @@ function mousePressed() {
       selection = 0;
     }
   }
+
+  // screench
   if (screench == true) {
     if (overI == true) {
       if (info == false) {
@@ -390,6 +415,9 @@ function mousePressed() {
       screench = true;
     }
   }
+
+  // info
+
 
 }
 
@@ -500,21 +528,7 @@ function keyPressed() {
 
   // play - pause
   if (key == ' ') {
-    if (playing == true) {
-      for (var i = 0; i < track.length; i++) {
-        track[i].pause();
-      }
-    } else {
-      for (var i = 0; i < track.length; i++) {
-        track[i].play();
-      }
-    }
-
-    if (playing == true) {
-      playing = false;
-    } else if (playing == false) {
-        playing = true;
-    }
+    tooglePlaying();
   }
 }
 
@@ -522,6 +536,34 @@ function reset() {
  for (var i = 0; i < shapes.length; i++) {
    shapes[i].metadata();
  }
+}
+
+function tooglePlaying() {
+  if (playing == true) {
+    for (var i = 0; i < track.length; i++) {
+      track[i].pause();
+    }
+    for (var i = 0; i < track.length; i++) {
+      track[i].pauseTime = track[0].pauseTime;
+    }
+  } else {
+    // for firefox
+    if (nav == 'ff') {
+      for (var i = 0; i < track.length; i++) {
+        track[i].play();
+      }
+    } else {
+      for (var i = 0; i < track.length; i++) {
+        track[i].play((6-i)*0.17);
+      }
+    }
+  }
+
+  if (playing == true) {
+    playing = false;
+  } else if (playing == false) {
+      playing = true;
+  }
 }
 
 function panels() {

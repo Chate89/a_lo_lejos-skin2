@@ -238,17 +238,17 @@ function information() {
   }
 
   for (var i = 0; i < shapes.length; i++) {
-    fill(30, 30, 30);
-    noStroke();
-    ellipse(map(shapes[i].y, windowHeight-20, 20, xinfo-253-140, xinfo-253+140), yinfo-50, 10, 10);
+    fill(0);
+    ellipse(map(shapes[i].y, windowHeight-20, 20, xinfo-253-140, xinfo-253+140), yinfo-50, 15, 15);
   }
 
   if (selection != 0 && loadcomp == 6) {
     fill(shapes[selection-1].redvalon, shapes[selection-1].grenvalon, shapes[selection-1].bluevalon);
     noStroke();
-    ellipse(map(shapes[selection-1].y, windowHeight-20, 20, xinfo-253-140, xinfo-253+140), yinfo-50, 10, 10);
-    text(int(shapes[selection-1].freq), map(shapes[selection-1].y, windowHeight-20, 20, xinfo-253-140, xinfo-253+140), yinfo-60);
-    text(int(shapes[selection-1].selection+1), map(shapes[selection-1].y, windowHeight-20, 20, xinfo-253-141, xinfo-253+139), yinfo-30);
+    ellipse(map(shapes[selection-1].y, windowHeight-20, 20, xinfo-253-140, xinfo-253+140), yinfo-50, 15, 15);
+    text(int(shapes[selection-1].freq), map(shapes[selection-1].y, windowHeight-20, 20, xinfo-253-140, xinfo-253+140), yinfo-25);
+    fill(0);
+    text(int(shapes[selection-1].selection+1), map(shapes[selection-1].y, windowHeight-20, 20, xinfo-253-141, xinfo-253+139), yinfo-45);
   }
 
 

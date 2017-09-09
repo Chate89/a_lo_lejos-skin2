@@ -232,23 +232,23 @@ function information() {
   fill(0, 200);
   rectMode(CENTER);
   if (windowHeight > 680) {
-    rect(xinfo-253, yinfo, 300, 100, 10, 10, 10, 10)
+    rect(xinfo-253, yinfo, 200, 280, 10, 10, 10, 10)
   } else {
-    rect(xinfo-253, yinfo, 300, 100, 7, 7, 7, 7)
+    rect(xinfo-253, yinfo, 200, 280, 7, 7, 7, 7)
   }
 
   for (var i = 0; i < shapes.length; i++) {
     fill(0);
-    ellipse(map(shapes[i].y, windowHeight-20, 20, xinfo-253-140, xinfo-253+140), yinfo-50, 15, 15);
+    ellipse(xinfo-253-100, map(shapes[i].y, windowHeight-20, 20, yinfo+130, yinfo-130), 15, 15);
   }
 
   if (selection != 0 && loadcomp == 6) {
     fill(shapes[selection-1].redvalon, shapes[selection-1].grenvalon, shapes[selection-1].bluevalon);
     noStroke();
-    ellipse(map(shapes[selection-1].y, windowHeight-20, 20, xinfo-253-140, xinfo-253+140), yinfo-50, 15, 15);
-    text(int(shapes[selection-1].freq), map(shapes[selection-1].y, windowHeight-20, 20, xinfo-253-140, xinfo-253+140), yinfo-25);
+    ellipse(xinfo-253-100, map(shapes[selection-1].y, windowHeight-20, 20, yinfo+130, yinfo-130), 15, 15);
+    text(int(shapes[selection-1].freq)+' Hz', xinfo-253-140, map(shapes[selection-1].y, windowHeight-20, 20, yinfo+130, yinfo-130)+5);
     fill(0);
-    text(int(shapes[selection-1].selection+1), map(shapes[selection-1].y, windowHeight-20, 20, xinfo-253-141, xinfo-253+139), yinfo-45);
+    text(int(shapes[selection-1].selection+1), xinfo-253-101, map(shapes[selection-1].y, windowHeight-20, 20, yinfo+130, yinfo-130)+4);
   }
 
 
@@ -266,24 +266,39 @@ function information() {
     for (var j = 0; j < numShapes; j++) {
       fill(20, 20, 20);
       for (var i = 0; i < octavespect[j].length; i++){
-        var x = map(i, 0, octavespect[j].length, xinfo-250-150, xinfo-250+150);
-        var h = -85 + map(octavespect[j][i], 0, 255, 85, 5);
-        rect(x, yinfo+45, 3, h);
+        var y = map(i, 0, octavespect[j].length, yinfo+130, yinfo-150);
+        var w = -85 + map(octavespect[j][i], 0, 255, 85, 5);
+        rect(xinfo-253, y, w, 3);
+      }
+      for (var i = 0; i < octavespect[j].length; i++){
+        var y = map(i, 0, octavespect[j].length, yinfo+130, yinfo-150);
+        var w = 85 + map(octavespect[j][i], 0, 255, -85, 5);
+        rect(xinfo-253, y, w, 3);
       }
     }
     fill(shapes[selection-1].redvalon, shapes[selection-1].grenvalon, shapes[selection-1].bluevalon);
     for (var i = 0; i < octavespect[selection-1].length; i++){
-      var x = map(i, 0, octavespect[selection-1].length, xinfo-250-150, xinfo-250+150);
-      var h = -85 + map(octavespect[selection-1][i], 0, 255, 85, 5);
-      rect(x, yinfo+45, 3, h);
+      var y = map(i, 0, octavespect[selection-1].length, yinfo+130, yinfo-150);
+      var w = -85 + map(octavespect[selection-1][i], 0, 255, 85, 5);
+      rect(xinfo-253, y, w, 3);
+    }
+    for (var i = 0; i < octavespect[selection-1].length; i++){
+      var y = map(i, 0, octavespect[selection-1].length, yinfo+130, yinfo-150);
+      var w = 85 + map(octavespect[selection-1][i], 0, 255, -85, 5);
+      rect(xinfo-253, y, w, 3);
     }
   } else {
     for (var j = 0; j < numShapes; j++) {
       fill(150, 60, 0);
       for (var i = 0; i < octavespect[j].length; i++){
-        var x = map(i, 0, octavespect[j].length, xinfo-250-150, xinfo-250+150);
-        var h = -85 + map(octavespect[j][i], 0, 255, 85, 5);
-        rect(x, yinfo+45, 3, h);
+        var y = map(i, 0, octavespect[j].length, yinfo+130, yinfo-150);
+        var w = -85 + map(octavespect[j][i], 0, 255, 85, 5);
+        rect(xinfo-253, y, w, 3);
+      }
+      for (var i = 0; i < octavespect[j].length; i++){
+        var y = map(i, 0, octavespect[j].length, yinfo+130, yinfo-150);
+        var w = 85 + map(octavespect[j][i], 0, 255, -85, 5);
+        rect(xinfo-253, y, w, 3);
       }
     }
   }

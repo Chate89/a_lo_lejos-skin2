@@ -539,30 +539,31 @@ function reset() {
 }
 
 function tooglePlaying() {
-  if (playing == true) {
-    for (var i = 0; i < track.length; i++) {
-      track[i].pause();
-    }
-    for (var i = 0; i < track.length; i++) {
-      track[i].pauseTime = track[0].pauseTime;
-    }
-  } else {
-    // for firefox
-    if (nav == 'ff') {
+  if (loadcomp == numShapes) {
+    if (playing == true) {
       for (var i = 0; i < track.length; i++) {
-        track[i].play();
+        track[i].pause();
+      }
+      for (var i = 0; i < track.length; i++) {
+        track[i].pauseTime = track[0].pauseTime;
       }
     } else {
-      for (var i = 0; i < track.length; i++) {
-        track[i].play((6-i)*0.17);
+      // for firefox
+      if (nav == 'ff') {
+        for (var i = 0; i < track.length; i++) {
+          track[i].play();
+        }
+      } else {
+        for (var i = 0; i < track.length; i++) {
+          track[i].play((6-i)*0.17);
+        }
       }
     }
-  }
-
-  if (playing == true) {
-    playing = false;
-  } else if (playing == false) {
+    if (playing == true) {
+      playing = false;
+    } else if (playing == false) {
       playing = true;
+    }
   }
 }
 

@@ -23,7 +23,7 @@ function information() {
     stroSatI = 150;
   }
 
-  if (windowHeight > 700) {
+  if (windowHeight > 680) {
     ypos = bottom-550;
   } else {
     ypos = bottom-465;
@@ -52,11 +52,11 @@ function information() {
   } else {
     fill (0)
   }
-  rect(windowWidth/2-115+xpos, windowHeight/2+100+ypos, 270, 40, 5);
+  rect(windowWidth/2-115+xpos, bottom-40, 270, 40, 5);
   fill(200, 100, 0, 200);
   noStroke();
   textSize(14);
-  text("spacebar", windowWidth/2-115+xpos, windowHeight/2+115+ypos);
+  text("spacebar", windowWidth/2-115+xpos, bottom-35);
   noFill();
   stroke(200, 100, 0, stroSatI);
   // arrows
@@ -65,10 +65,10 @@ function information() {
   } else {
     fill(0);
   }
-  rect(windowWidth/2+200+xpos, windowHeight/2+100+ypos, 40, 40, 5);
+  rect(windowWidth/2+200+xpos, bottom-40, 40, 40, 5);
   fill(200, 100, 0, 200);
   noStroke();
-  text("L", windowWidth/2+188+xpos, windowHeight/2+115+ypos);
+  text("L", windowWidth/2+188+xpos, bottom-25);
   noFill();
   stroke(200, 100, 0, stroSatI);
 
@@ -77,10 +77,10 @@ function information() {
   } else {
     fill(0);
   }
-  rect(windowWidth/2+250+xpos, windowHeight/2+100+ypos, 40, 40, 5);
+  rect(windowWidth/2+250+xpos, bottom-40, 40, 40, 5);
   fill(200, 100, 0, 200);
   noStroke();
-  text("Down", windowWidth/2+250+xpos, windowHeight/2+115+ypos);
+  text("Down", windowWidth/2+250+xpos, bottom-25);
   noFill();
   stroke(200, 100, 0, stroSatI);
 
@@ -89,10 +89,10 @@ function information() {
   } else {
     fill(0);
   }
-  rect(windowWidth/2+300+xpos, windowHeight/2+100+ypos, 40, 40, 5);
+  rect(windowWidth/2+300+xpos, bottom-40, 40, 40, 5);
   fill(200, 100, 0, 200);
   noStroke();
-  text("R", windowWidth/2+288+xpos, windowHeight/2+115+ypos);
+  text("R", windowWidth/2+288+xpos, bottom-25);
   noFill();
   stroke(200, 100, 0, 150);
 
@@ -101,10 +101,10 @@ function information() {
   } else {
     fill(0);
   }
-  rect(windowWidth/2+250+xpos, windowHeight/2+50+ypos, 40, 40, 5);
+  rect(windowWidth/2+250+xpos, bottom-90, 40, 40, 5);
   fill(200, 100, 0, 200);
   noStroke();
-  text("Up", windowWidth/2+250+xpos, windowHeight/2+65+ypos);
+  text("Up", windowWidth/2+250+xpos, bottom-75);
   noFill();
   stroke(200, 100, 0, stroSatI);
 
@@ -115,10 +115,10 @@ function information() {
     } else {
       fill(0);
     }
-    rect(windowWidth/2-350+(i*50)+xpos, windowHeight/2-100+ypos, 40, 40, 5);
+    rect(windowWidth/2-350+(i*50)+xpos, bottom-235, 40, 40, 5);
     fill(200, 100, 0, 200);
     noStroke();
-    text((i+1), windowWidth/2-360+(i*50)+xpos, windowHeight/2-85+ypos);
+    text((i+1), windowWidth/2-360+(i*50)+xpos, bottom-220);
     noFill();
     stroke(200, 100, 0, stroSatI);
   }
@@ -128,12 +128,12 @@ function information() {
   } else {
     fill(0);
   }
-  rect(windowWidth/2-330+xpos, windowHeight/2+50+ypos, 80, 40, 5);
-  rect(windowWidth/2+100+xpos, windowHeight/2+50+ypos, 80, 40, 5);
+  rect(windowWidth/2-330+xpos, bottom-90, 80, 40, 5);
+  rect(windowWidth/2+100+xpos, bottom-90, 80, 40, 5);
   fill(200, 100, 0, 200);
   noStroke();
-  text("Shift", windowWidth/2-353+xpos, windowHeight/2+65+ypos);
-  text("Shift", windowWidth/2+77+xpos, windowHeight/2+65+ypos);
+  text("Shift", windowWidth/2-353+xpos, bottom-75);
+  text("Shift", windowWidth/2+77+xpos, bottom-75);
   noFill();
   stroke(200, 100, 0, stroSatI);
 
@@ -142,12 +142,12 @@ function information() {
   } else {
     fill(0);
   }
-  rect(windowWidth/2-350+xpos, windowHeight/2+100+ypos, 40, 40, 5);
-  rect(windowWidth/2+120+xpos, windowHeight/2+100+ypos, 40, 40, 5);
+  rect(windowWidth/2-350+xpos, bottom-40, 40, 40, 5);
+  rect(windowWidth/2+120+xpos, bottom-40, 40, 40, 5);
   fill(200, 100, 0, 200);
   noStroke();
-  text("Ctrl", windowWidth/2-357+xpos, windowHeight/2+115+ypos);
-  text("Ctrl", windowWidth/2+113+xpos, windowHeight/2+115+ypos);
+  text("Ctrl", windowWidth/2-357+xpos, bottom-25);
+  text("Ctrl", windowWidth/2+113+xpos, bottom-25);
   noFill();
   stroke(200, 100, 0, stroSatI);
 
@@ -162,10 +162,10 @@ function information() {
       }
     }
   }
-  rect(windowWidth/2-300+xpos, windowHeight/2+ypos, 40, 40, 5);
+  rect(windowWidth/2-300+xpos, bottom-140, 40, 40, 5);
   fill(200, 100, 0, 200);
   noStroke();
-  text("S", windowWidth/2-310+xpos, windowHeight/2+15+ypos);
+  text("S", windowWidth/2-310+xpos, bottom-125);
   fill(0);
   stroke(200, 100, 0, stroSatI);
 
@@ -178,10 +178,10 @@ function information() {
       }
     }
   }
-  rect(windowWidth/2+xpos, windowHeight/2+50+ypos, 40, 40, 5);
+  rect(windowWidth/2+xpos, bottom-90, 40, 40, 5);
   fill(200, 100, 0, 200);
   noStroke();
-  text("M", windowWidth/2-10+xpos, windowHeight/2+65+ypos);
+  text("M", windowWidth/2-10+xpos, bottom-75);
   noFill();
   stroke(200, 100, 0, stroSatI);
 

@@ -23,7 +23,7 @@ function information() {
     stroSatI = 150;
   }
 
-  if (windowHeight > 680) {
+  if (windowHeight > 700) {
     ypos = bottom-550;
   } else {
     ypos = bottom-465;

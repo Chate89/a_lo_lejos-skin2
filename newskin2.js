@@ -555,7 +555,7 @@ function tooglePlaying() {
         }
       } else if (nav == 'sf') {
         for (var i = 0; i < track.length; i++) {
-          track[i].play((6-i)*0.3);
+          track[i].play((6-i)*0.10);
         }
       } else {
         for (var i = 0; i < track.length; i++) {

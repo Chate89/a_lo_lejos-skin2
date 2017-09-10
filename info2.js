@@ -380,6 +380,14 @@ function information() {
   for (var i = 0; i < track.length; i++) {
     text((track[i].currentTime()).toFixed(4), lside - 100, 100+i*30);
   }
+  var promlat = 0;
+  for (var i = 0; i < track.length-1; i++) {
+    promlat += abs((track[i].currentTime())-(track[i+1].currentTime()));
+  }
+  text((promlat/track.length).toFixed(4), lside-100, 300);
+  text('navigator: '+nav, lside-100, 320);
+
+
 
 
   noFill();

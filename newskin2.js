@@ -553,6 +553,10 @@ function tooglePlaying() {
         for (var i = 0; i < track.length; i++) {
           track[i].play();
         }
+      } else if (nav == 'sf') {
+        for (var i = 0; i < track.length; i++) {
+          track[i].play((6-i)*0.2);
+        }
       } else {
         for (var i = 0; i < track.length; i++) {
           track[i].play((6-i)*0.17);
